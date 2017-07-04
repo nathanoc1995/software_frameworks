@@ -1,0 +1,57 @@
+{
+
+	"store_items": [ //All items for the store
+		{
+			"_id": 1,
+			"category": "driver", 	//item category
+			"make": "nike",			//item make
+			"model": "rs3",			//item model
+			"price": 120,			//item price
+			"sale": false,			//on sale?
+			"sale_amt": 0,			//percent
+			"image_url": "example.com/test.jpg"	//URL to image for item, PNG transparent background.
+		},
+		{
+			"_id": 2,
+			"category": "driver",
+			"make": "nike",
+			"model": "rs3",
+			"price": 120,
+			"sale": false,
+			"sale_amt": 0,
+			"image_url": "example.com/test.jpg"
+		},
+		{
+			"_id": 3,
+			"category": "iron",
+			"make": "nike",
+			"model": "rs-set",
+			"price": 300,
+			"sale": true,
+			"sale_amt": 5,
+			"image_url": "example.com/test.jpg"
+		},
+		{
+			"_id": ,
+			"category": "",
+			"make": "",
+			"model": "",
+			"price": ,
+			"sale": ,
+			"sale_amt": ,
+			"image_url": ""
+		}
+	],
+
+	"promo_codes": [ //Promocodes for checkout
+		{
+			"_id": "2017", //Id of item, this is the promo code
+			"exp_date": "31/12/2017"  //Expiration of promo code, do check if code is entered
+		},
+		{
+			"_id": "2016",
+			"exp_date": "31/12/2016"  //This is out of date!!!
+		}
+
+	]
+}
