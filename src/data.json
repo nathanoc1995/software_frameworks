@@ -1,15 +1,15 @@
 {
 
-	"store_items": [ //All items for the store
+	"store_items": [
 		{
 			"_id": 1,
-			"category": "driver", 	//item category
-			"make": "nike",			//item make
-			"model": "rs3",			//item model
-			"price": 120,			//item price
-			"sale": false,			//on sale?
-			"sale_amt": 0,			//percent
-			"image_url": "example.com/test.jpg"	//URL to image for item, PNG transparent background.
+			"category": "driver", 
+			"make": "nike",			
+			"model": "rs3",			
+			"price": 120,			
+			"sale": false,			
+			"sale_amt": 0,			
+			"image_url": "http://media.golfdigest.com/photos/569e708713b5ddf87f517f9f/master/pass/Drivers-Beauty-Callaway-XR.png"	
 		},
 		{
 			"_id": 2,
@@ -19,8 +19,9 @@
 			"price": 120,
 			"sale": false,
 			"sale_amt": 0,
-			"image_url": "example.com/test.jpg"
+			"image_url": "http://media.golfdigest.com/photos/569e708713b5ddf87f517f9f/master/pass/Drivers-Beauty-Callaway-XR.png"
 		},
+		
 		{
 			"_id": 3,
 			"category": "iron",
@@ -29,28 +30,48 @@
 			"price": 300,
 			"sale": true,
 			"sale_amt": 5,
-			"image_url": "example.com/test.jpg"
+			"image_url": "http://media.golfdigest.com/photos/588a51f5b3fce37207f4d8e1/master/pass/0317-GameImprovementIrons-Beauty-Callaway-SteelheadXR-tout.png"
 		},
 		{
-			"_id": ,
-			"category": "",
-			"make": "",
-			"model": "",
-			"price": ,
-			"sale": ,
-			"sale_amt": ,
-			"image_url": ""
+			"_id": 4 ,
+			"category": "iron",
+			"make": "taylormade",
+			"model": "r11",
+			"price": 400,
+			"sale": false,
+			"sale_amt": 0,
+			"image_url": "http://media.golfdigest.com/photos/588a51f5b3fce37207f4d8e1/master/pass/0317-GameImprovementIrons-Beauty-Callaway-SteelheadXR-tout.png"
+		},
+		{
+			"_id": 5,
+			"category": "putter",
+			"make": "nike",
+			"model": "rs-set",
+			"price": 90,
+			"sale": true,
+			"sale_amt": 5,
+			"image_url": "http://www.indiegolfstores.co.za/img/sku/8285-1b.png?w=260&mode=max"
+		},
+		{
+			"_id": 6,
+			"category": "putter",
+			"make": "ping",
+			"model": "g-15",
+			"price": 120,
+			"sale": false,
+			"sale_amt": 0,
+			"image_url": "http://www.indiegolfstores.co.za/img/sku/8285-1b.png?w=260&mode=max"
 		}
 	],
 
-	"promo_codes": [ //Promocodes for checkout
+	"promo_codes": [
 		{
-			"_id": "2017", //Id of item, this is the promo code
-			"exp_date": "31/12/2017"  //Expiration of promo code, do check if code is entered
+			"_id": "2017",
+			"exp_date": "31/12/2017"  
 		},
 		{
 			"_id": "2016",
-			"exp_date": "31/12/2016"  //This is out of date!!!
+			"exp_date": "31/12/2016"  
 		}
 
 	]

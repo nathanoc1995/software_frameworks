@@ -1,21 +1,41 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+} from 'react-router-dom'
+import ReactDOM from 'react-dom';
 import './App.css';
+import {Shop, Checkout} from './Shop.js';
 
-class App extends Component {
-  render() {
+//var Shop = require('./Shop.js').sh1;
+//var Checkout = require('./Shop.js').sh2;
+
+var Info = React.createClass({  
+
+  render: function() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+        <div className="row">
+          <div className="col-xs-10 col-xs-offset-1 text-center">
+            <h1 className="lgHd">Information</h1>
+            <div className="lgTxt">
+
+            <p>THis application is purely for educational purposes.</p>
+
+           </div>
+          </div>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
       </div>
     );
-  }
-}
+  } 
+  }) ;
 
-export default App;
+ReactDOM.render((
+    <Router>
+    <div>
+      <Route exact path="/" component={Shop}/>
+      <Route exact path="/checkout" component={Checkout}/>
+      <Route exact path="/info" component={Info}/>
+    </div>
+  </Router>
+), document.getElementById('root')) ;

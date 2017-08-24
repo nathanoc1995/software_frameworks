@@ -1,0 +1,5 @@
+http://howtomakeaturn.github.io/react-lightbox/#
+
+npm install react-lightbox
+
+https://www.npmjs.com/package/react-lightbox - some docs...
