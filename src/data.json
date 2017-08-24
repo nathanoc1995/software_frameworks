@@ -5,21 +5,25 @@
 			"_id": 1,
 			"category": "driver", 
 			"make": "nike",			
-			"model": "rs3",			
+			"model": "rs3",
+			"description": "Just some test info.",			
 			"price": 120,			
 			"sale": false,			
 			"sale_amt": 0,			
-			"image_url": "http://media.golfdigest.com/photos/569e708713b5ddf87f517f9f/master/pass/Drivers-Beauty-Callaway-XR.png"	
+			"image_url": "http://media.golfdigest.com/photos/569e708713b5ddf87f517f9f/master/pass/Drivers-Beauty-Callaway-XR.png",
+			"qty": 1	
 		},
 		{
 			"_id": 2,
 			"category": "driver",
 			"make": "nike",
 			"model": "rs3",
+			"description": "",
 			"price": 120,
 			"sale": false,
 			"sale_amt": 0,
-			"image_url": "http://media.golfdigest.com/photos/569e708713b5ddf87f517f9f/master/pass/Drivers-Beauty-Callaway-XR.png"
+			"image_url": "http://media.golfdigest.com/photos/569e708713b5ddf87f517f9f/master/pass/Drivers-Beauty-Callaway-XR.png",
+			"qty": 1
 		},
 		
 		{
@@ -27,40 +31,48 @@
 			"category": "iron",
 			"make": "nike",
 			"model": "rs-set",
+			"description": "",
 			"price": 300,
 			"sale": true,
 			"sale_amt": 5,
-			"image_url": "http://media.golfdigest.com/photos/588a51f5b3fce37207f4d8e1/master/pass/0317-GameImprovementIrons-Beauty-Callaway-SteelheadXR-tout.png"
+			"image_url": "http://media.golfdigest.com/photos/588a51f5b3fce37207f4d8e1/master/pass/0317-GameImprovementIrons-Beauty-Callaway-SteelheadXR-tout.png",
+			"qty": 1
 		},
 		{
 			"_id": 4 ,
 			"category": "iron",
 			"make": "taylormade",
 			"model": "r11",
+			"description": "",
 			"price": 400,
 			"sale": false,
 			"sale_amt": 0,
-			"image_url": "http://media.golfdigest.com/photos/588a51f5b3fce37207f4d8e1/master/pass/0317-GameImprovementIrons-Beauty-Callaway-SteelheadXR-tout.png"
+			"image_url": "http://media.golfdigest.com/photos/588a51f5b3fce37207f4d8e1/master/pass/0317-GameImprovementIrons-Beauty-Callaway-SteelheadXR-tout.png",
+			"qty": 1
 		},
 		{
 			"_id": 5,
 			"category": "putter",
 			"make": "nike",
 			"model": "rs-set",
+			"description": "",
 			"price": 90,
 			"sale": true,
 			"sale_amt": 5,
-			"image_url": "http://www.indiegolfstores.co.za/img/sku/8285-1b.png?w=260&mode=max"
+			"image_url": "http://www.indiegolfstores.co.za/img/sku/8285-1b.png?w=260&mode=max",
+			"qty": 1
 		},
 		{
 			"_id": 6,
 			"category": "putter",
 			"make": "ping",
 			"model": "g-15",
+			"description": "",
 			"price": 120,
 			"sale": false,
 			"sale_amt": 0,
-			"image_url": "http://www.indiegolfstores.co.za/img/sku/8285-1b.png?w=260&mode=max"
+			"image_url": "http://www.indiegolfstores.co.za/img/sku/8285-1b.png?w=260&mode=max",
+			"qty": 1
 		}
 	],
 

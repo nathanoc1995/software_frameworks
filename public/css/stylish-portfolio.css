@@ -20,7 +20,7 @@ body {
     -o-background-size: cover;
 }
 
-hr {
+hr.main {
     color: #f00;
     background-color: #000;
     height: 5px;

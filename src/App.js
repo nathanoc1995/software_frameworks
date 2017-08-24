@@ -7,9 +7,6 @@ import ReactDOM from 'react-dom';
 import './App.css';
 import {Shop, Checkout} from './Shop.js';
 
-//var Shop = require('./Shop.js').sh1;
-//var Checkout = require('./Shop.js').sh2;
-
 var Info = React.createClass({  
 
   render: function() {

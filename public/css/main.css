@@ -8,6 +8,10 @@
 	margin: 5px;
 }
 
+hr.checkout {
+	border-top: 1px dashed #8c8b8b;
+}
+
 .MenuItem {
 	font-size: 20px;
 	font-weight: bold;

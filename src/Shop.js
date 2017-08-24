@@ -3,9 +3,10 @@ import './App.css';
 import {loadState,saveState} from './localStorage';
 import {store_items,promo_codes} from './data.json';
 import Modal from 'react-modal';
-import PropTypes from 'prop-types';
+import AlertContainer from 'react-alert';
 
 var allItems = [];
+var showingItems = [];
 var driver = [];
 var iron = [];
 var putter = [];
@@ -15,12 +16,13 @@ var currentItem = [];
 var emptyItem = {
       "_id": 0,
       "category": "", 
-      "make": "",     
-      "model": "",     
+      "make": "Your Basket is Empty!",     
+      "model": "This is not an item!",     
       "price": 0,     
       "sale": false,      
       "sale_amt": 0,      
-      "image_url": "" 
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png",
+      "qty": 0 
     }
 var msg;
 
@@ -35,7 +37,7 @@ var Shop = React.createClass({
 	return (
 		<div className="App">
         <br/>
-
+        <AlertContainer ref={(a) => msg = a} {...this.alertOptions} />
         <div className="row">
           <div className="col-xs-10 col-xs-offset-1">
             <div className="row">
@@ -81,7 +83,8 @@ var ShopListing = React.createClass({
           break;
         }
       }
-      return {isOpen: isOpen, currentItem: currentItem, allItems: allItems, driver: driver, iron: iron, putter: putter, shoppingBasket: loadState()};
+
+      return {isOpen: isOpen, currentItem: currentItem, selectedOption: 'allItems', showingItems: allItems, allItems: allItems, driver: driver, iron: iron, putter: putter, shoppingBasket: loadState()};
       },
 
 
@@ -102,20 +105,85 @@ var ShopListing = React.createClass({
       }
 
       this.setState({currentItem: itemDetails, isOpen: checkOpen });
-      this.forceUpdate();
     },
 
     addItemToBasket: function(){
 
-      console.log(this.state.currentItem[0]);
+      var itemDetails = [];
+      var addCheck = false;
+      var openChk = false;
+      itemDetails.push(emptyItem);
 
-      
-       
+      var tempBasket = [];
+      if(this.state.shoppingBasket !== undefined){
+
+        tempBasket = this.state.shoppingBasket;
+
+        for(var i=0;i<tempBasket.length;i++){
+          if(tempBasket[i]._id === this.state.currentItem[0]._id){
+            tempBasket[i].qty++;
+            addCheck = true;
+          }
+        }
+          if(!addCheck){
+            tempBasket.push(this.state.currentItem[0]);
+          }
+      }else{
+        tempBasket.push(this.state.currentItem[0]);
+      }
+
+      msg.show('Item added to basket!', { time: 1500});
+
+      this.setState({shoppingBasket: tempBasket, currentItem: itemDetails, isOpen: openChk });
+    },
+
+    changeList: function(changeEvent){
+      //Category change!!!
+      //Pass selected radio button in here, depending on what button is selected you swap out the 
+      //showingItems array with the relevant array! 
+      //E.G. selected drivers, showingItems = this.state.drivers
+      //To change back to full list - showingItems = this.state.allItems
+
+      var selector = changeEvent.target.value.toString();
+
+      switch(selector){
+
+          case "drivers":{
+            showingItems = this.state.driver;
+            this.setState({selectedOption: 'drivers'});
+          };
+          break;
+          case "irons":{
+            showingItems = this.state.iron;
+            this.setState({selectedOption: 'irons'});
+          };
+          break;
+          case "putters":{
+            showingItems = this.state.putter;
+            this.setState({selectedOption: 'putters'});
+          };
+          break;
+          case "allItems":{
+            showingItems = this.state.allItems;
+            this.setState({selectedOption: 'allItems'});
+          };
+          break;
+          default:{
+              showingItems = this.state.allItems;
+              this.setState({selectedOption: 'allItems'});
+          };
+          break;
+        }
+
+        this.setState({showingItems: showingItems});
+
     },
 
 
 
 	render(){
+
+    saveState(this.state.shoppingBasket);
 
     var total =0;
 		return(
@@ -129,11 +197,45 @@ var ShopListing = React.createClass({
 
         <div className="row">
         <div className="col-xs-12">
+
+        <div>
+        <h5>Categorys:</h5>
+        <form>
+          <label>
+          <input type="radio" value="allItems" 
+                      checked={this.state.selectedOption === 'allItems'} 
+                      onChange={this.changeList} />
+              All Items
+          </label>
+          &nbsp;
+          <label>
+          <input type="radio" value="drivers" 
+                      checked={this.state.selectedOption === 'drivers'} 
+                      onChange={this.changeList} />
+              Drivers
+          </label>
+          &nbsp;
+          <label>
+          <input type="radio" value="irons" 
+                      checked={this.state.selectedOption === 'irons'} 
+                      onChange={this.changeList} />
+              Irons
+          </label>
+          &nbsp;
+          <label>
+          <input type="radio" value="putters" 
+                      checked={this.state.selectedOption === 'putters'} 
+                      onChange={this.changeList} />
+              Putters
+          </label>
+        </form>
+        </div>
+
         <br/>
 
         <div>
           
-          {this.state.allItems.map(function(listValue, _id){
+          {this.state.showingItems.map(function(listValue, _id){
             let boundItemClick = this.showItemDetails.bind(this, listValue);
             //Format this to look better and display the items side by side!
             return (
@@ -154,7 +256,14 @@ var ShopListing = React.createClass({
               <h1>{this.state.currentItem[0].make} {this.state.currentItem[0].model}</h1>
               <img src={this.state.currentItem[0].image_url} width="100" height="100"/>
               <h2>&euro; {this.state.currentItem[0].price.toFixed(2)}</h2>
-              <button className="text-right btn" onClick={this.addItemToBasket}>Add to Basket</button>
+              <button className="text-right btn btn-success" onClick={this.addItemToBasket}>Add to Basket</button>
+              &nbsp;&nbsp;
+              <button className="text-right btn btn-danger" onClick={boundItemClick}>Close</button>
+              <br/>
+              <h3>Description - </h3>
+              <p>{this.state.currentItem[0].description}</p>
+              <br/><br/>
+              <small>You may also click the Esc Key to close!</small>
             </Modal>
 
             </div>
@@ -182,7 +291,40 @@ var ShopListing = React.createClass({
 
 var Checkout = React.createClass({
 
+  getInitialState: function() {
+
+    var tempCheck = [];
+
+    if(loadState() === undefined){
+      tempCheck.push(emptyItem);
+    }else{
+      tempCheck = loadState();
+    }
+
+    return { checkoutList: tempCheck };
+  },
+
+  removeItemCheckout: function(item, e){
+    //THis function will removce the item selected. If quantity is more than one it will decriment qty!
+    console.log("Item to remove - "+ item)
+  },
+
+  checkoutCall: function(){
+    //THis will handle the full checkout!
+  },
+
+  clearCheckout: function(){
+    
+    var tempCheck = [];
+    tempCheck.push(emptyItem);
+
+    this.setState({shoppingBasket: [], checkoutList: tempCheck});
+    saveState(this.state.shoppingBasket);
+  },
+
 	render: function (){
+
+    var totalItemCost = 0;
 
 	return (
 		<div className="App">
@@ -192,7 +334,43 @@ var Checkout = React.createClass({
           <div className="col-xs-10 col-xs-offset-1">
             <div className="row">
 
-                <h1>Test Check</h1>   
+                <h1>Checkout!</h1>
+                <small>Basket:</small>
+                <hr className="checkout"/>
+
+                <div>
+                  <ul>
+                {this.state.checkoutList.map(function(listValue, _id){
+                  let boundItemClick = this.removeItemCheckout.bind(this, listValue);
+                  var total = (listValue.qty*listValue.price);
+                  totalItemCost += total;
+                  return (
+                  <div key={_id}>
+                    <li>
+                    <p className="text-left"><img src={listValue.image_url} width="50" height="50"/>
+                    &nbsp;-&nbsp;
+                    {listValue.make} {listValue.model} &emsp;&emsp;
+                    &emsp;&emsp;
+                    Qty. <b><i>{listValue.qty}</i></b>  &nbsp;
+                    Price - &euro;<b><i>{total.toFixed(2)}</i></b> - &nbsp;&nbsp;
+                    <button className="text-right btn btn-danger" onClick={boundItemClick}>X</button>
+                    &nbsp;
+                    </p>
+                    </li>
+                    <hr className="checkout"/>
+                  </div>
+                );
+              }, this)}
+                  </ul>
+                  <div className="text-right">
+                  <h3>Total Price - &euro;{totalItemCost.toFixed(2)}</h3>
+
+                  <button className="text-right btn btn-success" onClick={this.checkoutCall}>Checkout</button>
+                  <br/><br/>
+                  <button className="text-right btn btn-danger" onClick={this.clearCheckout}>Clear Checkout</button>
+
+                  </div>
+                </div>
 
             </div>
           </div>
