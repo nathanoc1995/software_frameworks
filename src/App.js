@@ -17,7 +17,7 @@ var Info = React.createClass({
             <h1 className="lgHd">Information</h1>
             <div className="lgTxt">
 
-            <p>THis application is purely for educational purposes.</p>
+            <p>This application is purely for educational purposes.</p>
 
            </div>
           </div>

@@ -18,6 +18,14 @@ hr.checkout {
 	text-transform: capitalize;
 }
 
+.inlineDisplay{
+	display: inline;
+	float: left;
+	border: dashed black 2px;
+	padding: 20px;
+	margin: 15px;
+}
+
 .lgHd {
 	font-size: 35px;
 	font-weight: bold;

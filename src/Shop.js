@@ -4,6 +4,7 @@ import {loadState,saveState} from './localStorage';
 import {store_items,promo_codes} from './data.json';
 import Modal from 'react-modal';
 import AlertContainer from 'react-alert';
+import StripeCheckout from 'react-stripe-checkout';
 
 var allItems = [];
 var showingItems = [];
@@ -190,7 +191,6 @@ var ShopListing = React.createClass({
 
 				 <div>
 
-        <div className="col-xs-4">
                   <h1 className="text-center">Shop</h1>
 
 
@@ -233,20 +233,20 @@ var ShopListing = React.createClass({
 
         <br/>
 
-        <div>
+        <div className="row">
+        <div className="col-xs-12">
           
           {this.state.showingItems.map(function(listValue, _id){
             let boundItemClick = this.showItemDetails.bind(this, listValue);
             //Format this to look better and display the items side by side!
             return (
             <div key={_id}>
-            <br/><br/><br/>
-            <div className="row ">
-            <div className="col-xs-4">
+            <div className="inlineDisplay">
             <img src={listValue.image_url} width="50" height="50"/>
             <p>{listValue.make} {listValue.model}</p>
             <p>&euro; {listValue.price.toFixed(2)}</p>
             <button className="text-right btn" onClick={boundItemClick}>View Item</button>
+            </div>
 
             <Modal
               isOpen={this.state.isOpen}
@@ -267,15 +267,11 @@ var ShopListing = React.createClass({
             </Modal>
 
             </div>
-
-            
-            </div>
-            </div>
             );
           }, this)}
 
-
-        </div>
+          </div>
+        
 
         </div>
         </div>
@@ -294,23 +290,59 @@ var Checkout = React.createClass({
   getInitialState: function() {
 
     var tempCheck = [];
+    var emptyChk = true;
 
     if(loadState() === undefined){
       tempCheck.push(emptyItem);
+      emptyChk = true;
     }else{
       tempCheck = loadState();
+      for(var i=0;i<tempCheck.length;i++){
+      if(tempCheck.length > 1 && tempCheck[i]._id === 0){
+        tempCheck.splice(i,1);
+        emptyChk = false;
+        }
+      else if(tempCheck.length >= 1 && tempCheck[i]._id === 0){
+        emptyChk = true;
+      }
+      }
     }
 
-    return { checkoutList: tempCheck };
+    return { shoppingBasket: tempCheck, emptyList: emptyChk};
   },
 
   removeItemCheckout: function(item, e){
     //THis function will removce the item selected. If quantity is more than one it will decriment qty!
-    console.log("Item to remove - "+ item)
+    console.log("Item to remove - "+ item._id)
+
+    var tempCheck = [];
+
+    if(loadState() === undefined){}
+    else{
+      tempCheck = loadState();
+      for(var i=0;i<tempCheck.length;i++){
+        if(tempCheck[i]._id === item._id){
+          if(item.qty !== 1 && item._id !== 0){
+            tempCheck[i].qty--;
+          }else if(item._id !== 0){
+            tempCheck.splice(i,1);
+          }
+        }   
+      }
+    }
+
+    if(tempCheck.length === 0 || tempCheck.length === undefined){
+      this.clearCheckout();
+    }else{
+      this.replaceState({shoppingBasket: tempCheck});
+    }
+
   },
 
-  checkoutCall: function(){
-    //THis will handle the full checkout!
+  onToken: function(token) {
+   this.clearCheckout();
+    alert("Thank you, your order is being processed!");
+    window.location.assign('/');
   },
 
   clearCheckout: function(){
@@ -318,11 +350,12 @@ var Checkout = React.createClass({
     var tempCheck = [];
     tempCheck.push(emptyItem);
 
-    this.setState({shoppingBasket: [], checkoutList: tempCheck});
-    saveState(this.state.shoppingBasket);
+    this.setState({shoppingBasket: tempCheck, emptyList: true});
   },
 
 	render: function (){
+
+      saveState(this.state.shoppingBasket);
 
     var totalItemCost = 0;
 
@@ -340,7 +373,7 @@ var Checkout = React.createClass({
 
                 <div>
                   <ul>
-                {this.state.checkoutList.map(function(listValue, _id){
+                {this.state.shoppingBasket.map(function(listValue, _id){
                   let boundItemClick = this.removeItemCheckout.bind(this, listValue);
                   var total = (listValue.qty*listValue.price);
                   totalItemCost += total;
@@ -365,7 +398,30 @@ var Checkout = React.createClass({
                   <div className="text-right">
                   <h3>Total Price - &euro;{totalItemCost.toFixed(2)}</h3>
 
-                  <button className="text-right btn btn-success" onClick={this.checkoutCall}>Checkout</button>
+                  <StripeCheckout
+                  disabled = {this.state.emptyList}
+              name="O'Connor's Golf Shop"
+              description="O'Connor's Online Golf"
+              image=""
+              ComponentClass="div"
+              panelLabel="Make Payment: "
+              amount={totalItemCost*100}
+              currency="EUR"
+              stripeKey="pk_test_UCbXbCNsbdNCk4WfTNuJ0qje"
+              locale="auto"
+              email="nathanoconnorz@hotmail.com"
+              shippingAddress={true}
+              billingAddress={true}
+              zipCode={false}
+              allowRememberMe
+              token={this.onToken}
+              reconfigureOnUpdate={false}
+              >
+                <button className="btn btn-primary">
+                    Pay with Card
+                </button>
+              </StripeCheckout>
+
                   <br/><br/>
                   <button className="text-right btn btn-danger" onClick={this.clearCheckout}>Clear Checkout</button>
 
@@ -380,7 +436,5 @@ var Checkout = React.createClass({
 		);
 }
 });
-
-//module.exports = { sh1: Shop, sh2: Checkout}
 
 export {Shop, Checkout}
